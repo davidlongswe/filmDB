@@ -33,6 +33,8 @@ public class Controller implements Initializable {
     @FXML
     private Button deleteBtn;
     @FXML
+    private Button clearBtn;
+    @FXML
     private TableColumn<Film, Integer> colID;
     @FXML
     private TableColumn<Film, String> colTitle;
@@ -75,7 +77,6 @@ public class Controller implements Initializable {
             }
         });
 
-
         deleteBtn.setOnMouseClicked(mouseEvent -> {
             if(!tfID.getText().isEmpty()){
                 databaseHandler.deleteRecord(Integer.parseInt(tfID.getText()));
@@ -85,7 +86,12 @@ public class Controller implements Initializable {
                 tfID.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
                 tfID.setText("ID Required!");
             }
+        });
 
+        clearBtn.setOnMouseClicked(mouseEvent -> {
+            if(!tfID.getText().isEmpty()){
+                resetTextFields();
+            }
         });
     }
 
