@@ -79,6 +79,7 @@ public class Controller implements Initializable {
         deleteBtn.setOnMouseClicked(mouseEvent -> {
             if(!tfID.getText().isEmpty()){
                 databaseHandler.deleteRecord(Integer.parseInt(tfID.getText()));
+                resetTextFields();
                 showFilms();
             }else{
                 tfID.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
@@ -91,7 +92,6 @@ public class Controller implements Initializable {
     public boolean IDNotInTable(){
         return !getTableIds().contains(Integer.parseInt(tfID.getText()));
     }
-
 
     public boolean textFieldsNotEmpty(){
         return !tfID.getText().isEmpty() && !tfTitle.getText().isEmpty() && !tfGenre.getText().isEmpty()
@@ -113,12 +113,11 @@ public class Controller implements Initializable {
         for(TextField textField : textFields){
             if(textField.getText().isEmpty()){
                 textField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
-                textField.setText("required!");
-                System.out.println("I AM HERE");
+                textField.setText("Required!");
             }else if(textField.equals(tfID) && !IDNotInTable()){
                 textField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
                 textField.setText(null);
-                textField.setText("ID EXISTS!");
+                textField.setText("ID Exists!");
             }
         }
     }
@@ -154,7 +153,7 @@ public class Controller implements Initializable {
     }
 
     private List<Integer> getTableIds(){
-        TableColumn idCol = tvFilms.getColumns().get(0);
+        TableColumn<Film, ?> idCol = tvFilms.getColumns().get(0);
         List<Integer> columnData = new ArrayList<>();
         for (Film item : tvFilms.getItems()) {
             columnData.add((Integer) idCol.getCellObservableValue(item).getValue());
