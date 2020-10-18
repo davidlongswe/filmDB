@@ -4,15 +4,13 @@ import database_elements.DatabaseHandler;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Film;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -51,7 +49,7 @@ public class Controller implements Initializable {
 
     private void setButtonListeners() {
         insertBtn.setOnMouseClicked(mouseEvent -> {
-            if(textFieldsNotEmpty()){
+            if(textFieldsNotEmpty() && IDNotInTable()){
                 databaseHandler.insertRecord(
                         Integer.parseInt(tfID.getText()),
                         tfTitle.getText(), tfGenre.getText(),
@@ -90,6 +88,11 @@ public class Controller implements Initializable {
         });
     }
 
+    public boolean IDNotInTable(){
+        return !getTableIds().contains(Integer.parseInt(tfID.getText()));
+    }
+
+
     public boolean textFieldsNotEmpty(){
         return !tfID.getText().isEmpty() && !tfTitle.getText().isEmpty() && !tfGenre.getText().isEmpty()
                 && !tfYear.getText().isEmpty() && !tfRating.getText().isEmpty();
@@ -111,6 +114,11 @@ public class Controller implements Initializable {
             if(textField.getText().isEmpty()){
                 textField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
                 textField.setText("required!");
+                System.out.println("I AM HERE");
+            }else if(textField.equals(tfID) && !IDNotInTable()){
+                textField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+                textField.setText(null);
+                textField.setText("ID EXISTS!");
             }
         }
     }
@@ -143,6 +151,15 @@ public class Controller implements Initializable {
         textFields.add(tfGenre);
         textFields.add(tfYear);
         textFields.add(tfRating);
+    }
+
+    private List<Integer> getTableIds(){
+        TableColumn idCol = tvFilms.getColumns().get(0);
+        List<Integer> columnData = new ArrayList<>();
+        for (Film item : tvFilms.getItems()) {
+            columnData.add((Integer) idCol.getCellObservableValue(item).getValue());
+        }
+        return columnData;
     }
 
     @Override
