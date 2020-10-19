@@ -91,6 +91,7 @@ public class Controller implements Initializable {
         clearBtn.setOnMouseClicked(mouseEvent -> {
             if(!tfID.getText().isEmpty()){
                 resetTextFields();
+                showFilms();
             }
         });
     }
@@ -109,8 +110,8 @@ public class Controller implements Initializable {
             if(textField.getStyle() != null){
                 textField.setStyle(null);
             }
-            if(textField.getText() != null){
-                textField.setText(null);
+            if(!textField.getText().equals("")){
+                textField.setText("");
             }
         }
     }
