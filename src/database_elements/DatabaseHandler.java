@@ -8,11 +8,9 @@ import java.sql.*;
 
 public class DatabaseHandler {
 
-    private final String DB_URL = "jdbc:mariadb://atlantis.informatik.umu.se/svph1910_db_ht2020";
     private Connection dbConnection;
     private DatabaseAccount databaseAccount;
     private Statement statement;
-    private ResultSet resultSet;
 
     public DatabaseHandler(){
         try {
@@ -25,6 +23,7 @@ public class DatabaseHandler {
 
     public void connect(){
         try {
+            String DB_URL = "jdbc:mariadb://atlantis.informatik.umu.se/svph1910_db_ht2020";
             dbConnection = DriverManager.getConnection(
                     DB_URL,
                     databaseAccount.getUser(),
@@ -50,7 +49,7 @@ public class DatabaseHandler {
         String query = "SELECT * FROM Films";
         try{
             statement = dbConnection.createStatement();
-            resultSet = statement.executeQuery(query);
+            ResultSet resultSet = statement.executeQuery(query);
             Film film;
             while(resultSet.next()){
                 film = new Film(resultSet.getInt("ID"),

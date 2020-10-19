@@ -50,6 +50,13 @@ public class Controller implements Initializable {
     private ArrayList<TextField> textFields;
 
     private void setButtonListeners() {
+        addInsertBtnListener();
+        addUpdateBtnListener();
+        addDeleteBtnListener();
+        addClearBtnListener();
+    }
+
+    public void addInsertBtnListener(){
         insertBtn.setOnMouseClicked(mouseEvent -> {
             if(textFieldsNotEmpty() && IDNotInTable()){
                 databaseHandler.insertRecord(
@@ -63,7 +70,9 @@ public class Controller implements Initializable {
                 warnUser();
             }
         });
+    }
 
+    public void addUpdateBtnListener(){
         updateBtn.setOnMouseClicked(mouseEvent -> {
             if(textFieldsNotEmpty()){
                 databaseHandler.updateRecord(Integer.parseInt(tfID.getText()),
@@ -76,20 +85,25 @@ public class Controller implements Initializable {
                 warnUser();
             }
         });
+    }
 
+    public void addDeleteBtnListener(){
         deleteBtn.setOnMouseClicked(mouseEvent -> {
-            if(!tfID.getText().isEmpty()){
+            if(!tfID.getText().isEmpty() && !IDNotInTable()){
                 databaseHandler.deleteRecord(Integer.parseInt(tfID.getText()));
                 resetTextFields();
                 showFilms();
             }else{
                 tfID.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
-                tfID.setText("ID Required!");
+                tfID.setText("Enter valid ID");
             }
         });
+    }
 
+    public void addClearBtnListener(){
         clearBtn.setOnMouseClicked(mouseEvent -> {
-            if(!tfID.getText().isEmpty()){
+            if(!tfID.getText().isEmpty() || !tfTitle.getText().isEmpty() ||
+                    !tfGenre.getText().isEmpty() || !tfYear.getText().isEmpty() || !tfRating.getText().isEmpty()){
                 resetTextFields();
                 showFilms();
             }

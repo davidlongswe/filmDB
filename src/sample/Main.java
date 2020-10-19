@@ -13,8 +13,6 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("App.fxml"));
         primaryStage.setTitle("FilmDB");
         primaryStage.setScene(new Scene(root, 900, 600));
-        primaryStage.setMaxWidth(600);
-        primaryStage.setMaxWidth(900);
         primaryStage.show();
     }
 
